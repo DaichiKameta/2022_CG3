@@ -31,7 +31,7 @@ XMFLOAT3 Object3d::up = { 0, 1, 0 };
 D3D12_VERTEX_BUFFER_VIEW Object3d::vbView{};
 D3D12_INDEX_BUFFER_VIEW Object3d::ibView{};
 Object3d::VertexPosNormalUv Object3d::vertices[vertexCount];
-unsigned short Object3d::indices[planeCount * 3];
+unsigned short Object3d::indices[indexCount];
 
 void Object3d::StaticInitialize(ID3D12Device * device, int window_width, int window_height)
 {
@@ -126,6 +126,18 @@ void Object3d::CameraMoveVector(XMFLOAT3 move)
 
 	SetEye(eye_moved);
 	SetTarget(target_moved);
+}
+
+void Object3d::CameraMoveEyeVector(XMFLOAT3 move)
+{
+	XMFLOAT3 eye_moved = GetEye();
+	XMFLOAT3 target_moved = GetTarget();
+
+	eye_moved.x += move.x;
+	eye_moved.y += move.y;
+	eye_moved.z += move.z;
+
+	SetEye(eye_moved);
 }
 
 void Object3d::InitializeDescriptorHeap()
@@ -316,6 +328,26 @@ void Object3d::InitializeGraphicsPipeline()
 
 void Object3d::LoadTexture()
 {
+	// 四角形の頂点データ
+	VertexPosNormalUv verticesSquare[] = {
+		{{-5.0f,-5.0f,0.0f},{0,0,1},{0,1}},//左下
+		{{-5.0f,+5.0f,0.0f},{0,0,1},{0,0}},//左上
+		{{+5.0f,-5.0f,0.0f},{0,0,1},{1,1}},//右下
+		{{+5.0f,+5.0f,0.0f},{0,0,1},{1,0}},//右上
+	};
+
+	// メンバ変数にコピー
+	std::copy(std::begin(verticesSquare), std::end(verticesSquare), vertices);
+
+	// 四角形のインデックスデータ
+	unsigned short indicesSquare[] = {
+		0,1,2,//三角形1
+		2,1,3,//三角形2
+	};
+
+	// メンバ変数にコピー
+	std::copy(std::begin(indicesSquare), std::end(indicesSquare), indices);
+
 	HRESULT result = S_FALSE;
 
 	TexMetadata metadata{};
@@ -391,6 +423,8 @@ void Object3d::CreateModel()
 	HRESULT result = S_FALSE;
 
 	std::vector<VertexPosNormalUv> realVertices;
+
+	/*
 	// 頂点座標の計算（重複あり）
 	{
 		realVertices.resize((division + 1) * 2);
@@ -478,7 +512,6 @@ void Object3d::CreateModel()
 	}
 
 	// 頂点インデックスの設定
-	{
 		for (int i = 0; i < _countof(indices); i++)
 		{
 			indices[i] = i;
@@ -508,6 +541,7 @@ void Object3d::CreateModel()
 		XMStoreFloat3(&vertices[index1].normal, normal);
 		XMStoreFloat3(&vertices[index2].normal, normal);
 	}
+	*/
 
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices));
 
@@ -562,6 +596,7 @@ void Object3d::CreateModel()
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeof(indices);
+
 }
 
 void Object3d::UpdateViewMatrix()
