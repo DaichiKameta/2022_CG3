@@ -218,7 +218,8 @@ void Object3d::InitializeGraphicsPipeline()
 	}
 
 	// ジオメトリシェーダーの読み込みとコンパイル
-	result = D3DCompileFromFile(L"Resources/Shaders/BasicPixelShader.hlsl",	// シェーダファイル名
+	result = D3DCompileFromFile(
+		L"Resources/Shaders/BasicGeometryShader.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "gs_5_0",	// エントリーポイント名、シェーダーモデル指定
