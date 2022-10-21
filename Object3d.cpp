@@ -25,7 +25,8 @@ CD3DX12_CPU_DESCRIPTOR_HANDLE Object3d::cpuDescHandleSRV;
 CD3DX12_GPU_DESCRIPTOR_HANDLE Object3d::gpuDescHandleSRV;
 XMMATRIX Object3d::matView{};
 XMMATRIX Object3d::matProjection{};
-XMFLOAT3 Object3d::eye = { 0, 0, -50.0f };
+//XMFLOAT3 Object3d::eye = { 0, 0, -50.0f };
+XMFLOAT3 Object3d::eye = { 0, 0, -5.0f };
 XMFLOAT3 Object3d::target = { 0, 0, 0 };
 XMFLOAT3 Object3d::up = { 0, 1, 0 };
 D3D12_VERTEX_BUFFER_VIEW Object3d::vbView{};
@@ -363,12 +364,6 @@ void Object3d::InitializeGraphicsPipeline()
 void Object3d::LoadTexture()
 {
 
-	// 四角形のインデックスデータ
-	unsigned short indicesSquare[] = {
-		0,1,2,//三角形1
-		2,1,3,//三角形2
-	};
-
 	// メンバ変数にコピー
 	//std::copy(std::begin(indicesSquare), std::end(indicesSquare), indices);
 
@@ -444,9 +439,20 @@ void Object3d::LoadTexture()
 
 void Object3d::CreateModel()
 {
+	// 四角形の頂点データ
+	VertexPos verticesPoint[] = {
+		{{0.0f,0.0f,0.0f}},
+	};
+
+	// 四角形のインデックスデータ
+	unsigned short indicesSquare[] = {
+		0,1,2,//三角形1
+		2,1,3,//三角形2
+	};
+
 	HRESULT result = S_FALSE;
 
-	std::vector<VertexPosNormalUv> realVertices;
+	std::vector<VertexPos> realVertices;
 
 	/*
 	// 頂点座標の計算（重複あり）
@@ -579,12 +585,9 @@ void Object3d::CreateModel()
 	std::copy(std::begin(verticesSquare), std::end(verticesSquare), vertices);
 	*/
 
-	// 四角形の頂点データ
-	VertexPos verticesPoint[] = {
-		{{0.0f,0.0f,0.0f}},
-	};
+
 	// メンバ変数にコピー
-	std::copy(std::begin(verticesPoint), std::end(verticesPoint), vertices);
+	//std::copy(std::begin(verticesPoint), std::end(verticesPoint), vertices);
 
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices));
 
