@@ -1,4 +1,4 @@
-#include "Particle.hlsli"
+#include "BasicShaderHeader.hlsli"
 
 // lŠpŒ`‚Ì’¸“_
 static const uint vnum = 4;
