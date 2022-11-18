@@ -778,9 +778,9 @@ void ParticleManager::Update()
 	//matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	//matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 
-	// ワールド行列の合成
+	//ワールド行列の合成
 	//matWorld = XMMatrixIdentity(); // 変形をリセット
-	
+	//
 	//matWorld *= matBillboard;	// ビルボード行列を掛ける
 	//matWorld *= matBillboardY;	// Y軸ビルボード行列を掛ける
 
@@ -800,8 +800,8 @@ void ParticleManager::Update()
 	//constMap->color = color;
 	//constMap->mat = matWorld * matView * matProjection;
 	constMap->mat = matView * matProjection;	// 行列の合成
-	constMap->matBillboard = matBillboard;
-	constBuff->Unmap(0, nullptr);
+	constMap->matBillboard = matBillboard;		// 
+	constBuff->Unmap(0, nullptr);				// 
 }
 
 void ParticleManager::Draw()

@@ -38,10 +38,9 @@ void main(
 		element.svpos = input[0].pos + offset;
 		
 		// ワールド座標ベースで、ずらす
-		element.svpos = input[0].pos + offset_array[i];
+		//element.svpos = input[0].pos + offset_array[i];
 		// ビュー、射影変換
 		element.svpos = mul(mat, element.svpos);
-		//element.uv = float2(0.5f, 0.5f);
 		element.uv = uv_array[i];
 		output.Append(element);
 	}
